@@ -1,6 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { formSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 
 //shadcn ui
@@ -17,15 +18,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  description: z.string().min(5, {
-    message: "desciption longer than 5 characters.",
-  }),
-});
-
 export default function AddForm() {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -38,7 +30,10 @@ export default function AddForm() {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const Rawdata = fetch("http://localhost:3000/api/todo", {
+      method: "Post",
+      body: JSON.stringify(values),
+    }).then((response) => console.log(response));
   }
   return (
     <Form {...form}>

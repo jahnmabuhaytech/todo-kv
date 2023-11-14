@@ -1,6 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { formSchema } from "@/lib/zodSchema";
 import * as z from "zod";
 
 //shadcn ui
@@ -16,15 +17,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
-const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  description: z.string().min(5, {
-    message: "desciption longer than 5 characters.",
-  }),
-});
 
 type TodoItemProp = {
   Id: string;

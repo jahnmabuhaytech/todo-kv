@@ -1,8 +1,16 @@
 import CustomDialog from "@/components/CustomDialog";
 import AddForm from "@/components/AddForm";
 import TodoCard from "@/components/TodoCard";
+import { TodoList } from "@/lib/zodSchema";
 
-export default function Home() {
+export default async function Home() {
+  let datas: TodoList[] = [];
+
+  const Rawdata = await fetch("http://localhost:3000/api/todo", {
+    cache: "no-store",
+  });
+  datas = await Rawdata.json();
+
   return (
     <>
       <div className="text-center p-8 flex flex-col gap-5 justify-center items-center">
@@ -14,11 +22,14 @@ export default function Home() {
         >
           <AddForm />
         </CustomDialog>
-        <TodoCard
-          Id="1"
-          Title="Save the world"
-          Description="Solving World Hunger"
-        />
+        {datas.map((data) => (
+          <TodoCard
+            key={data.id.toString()}
+            Id={data.id.toString()}
+            Title={data.title}
+            Description={data.description}
+          />
+        ))}
       </div>
     </>
   );
