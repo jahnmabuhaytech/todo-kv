@@ -32,8 +32,13 @@ export default function AddForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const Rawdata = fetch("http://localhost:3000/api/todo", {
       method: "Post",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(values),
-    }).then((response) => console.log(response));
+    }).then((response) => {
+      return response;
+    });
   }
   return (
     <Form {...form}>

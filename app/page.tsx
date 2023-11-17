@@ -2,14 +2,16 @@ import CustomDialog from "@/components/CustomDialog";
 import AddForm from "@/components/AddForm";
 import TodoCard from "@/components/TodoCard";
 import { TodoList } from "@/lib/zodSchema";
+import { useEffect } from "react";
 
 export default async function Home() {
   let datas: TodoList[] = [];
 
   const Rawdata = await fetch("http://localhost:3000/api/todo", {
-    cache: "no-store",
+    next: { revalidate: 0 },
+  }).then(async (rawdata) => {
+    datas = await rawdata.json();
   });
-  datas = await Rawdata.json();
 
   return (
     <>

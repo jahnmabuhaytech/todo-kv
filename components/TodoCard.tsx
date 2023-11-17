@@ -35,6 +35,18 @@ export default function TodoCard({ Id, Title, Description }: TodoCardProp) {
     setChecked("no-underline");
   };
 
+  const handleDelete = (title: string) => {
+    const Rawdata = fetch("http://localhost:3000/api/todo", {
+      method: "Delete",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title: title }),
+    }).then((response) => {
+      return response;
+    });
+  };
+
   return (
     <Card className="flex flex-row gap-5 items-center justify-center px-5">
       <Checkbox id={Id} checked={check} onCheckedChange={handleChecked} />
@@ -53,7 +65,14 @@ export default function TodoCard({ Id, Title, Description }: TodoCardProp) {
       >
         <ChangeForm Id={Id} Title={Title} Description={Description} />
       </CustomDialog>
-      <Button className="bg-red-600 hover:bg-red-500">Delete</Button>
+      <Button
+        className="bg-red-600 hover:bg-red-500"
+        onClick={() => {
+          handleDelete(Title);
+        }}
+      >
+        Delete
+      </Button>
     </Card>
   );
 }
